@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,7 @@ import { Fingerprint } from "lucide-react";
 import FingerprintScanner from "@/components/FingerprintScanner";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import FingerprintRegistration from "@/components/FingerprintRegistration";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ const LoginPage = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showFingerprint, setShowFingerprint] = useState(false);
+  const [fingerprintRegistered, setFingerprintRegistered] = useState(false);
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,9 +58,10 @@ const LoginPage = () => {
       !registerData.name ||
       !registerData.email ||
       !registerData.password ||
-      !registerData.confirmPassword
+      !registerData.confirmPassword ||
+      !fingerprintRegistered
     ) {
-      toast.error("Please fill in all fields");
+      toast.error("Please complete all steps including fingerprint registration");
       return;
     }
     
@@ -284,9 +286,24 @@ const LoginPage = () => {
                       />
                       <Label htmlFor="is-teacher">Register as Teacher</Label>
                     </div>
+                    
+                    <div className="space-y-4">
+                      <FingerprintRegistration 
+                        onRegisterSuccess={() => setFingerprintRegistered(true)} 
+                      />
+                      {fingerprintRegistered && (
+                        <p className="text-sm text-green-600 text-center">
+                          ✓ Fingerprint registered successfully
+                        </p>
+                      )}
+                    </div>
                   </CardContent>
                   <CardFooter>
-                    <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    <Button 
+                      type="submit" 
+                      className="w-full" 
+                      disabled={isSubmitting || !fingerprintRegistered}
+                    >
                       {isSubmitting ? "Registering..." : "Register"}
                     </Button>
                   </CardFooter>
