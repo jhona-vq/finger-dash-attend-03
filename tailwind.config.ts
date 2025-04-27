@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Add theme colors for our attendance app
+				attendance: {
+					present: '#4ade80',
+					absent: '#f87171',
+					late: '#facc15',
+					primary: '#6366f1',
+					secondary: '#8b5cf6',
+					background: '#eef2ff',
 				}
 			},
 			borderRadius: {
